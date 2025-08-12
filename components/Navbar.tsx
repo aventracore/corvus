@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: '/features', label: 'Features' },
@@ -16,8 +17,9 @@ const navLinks = [
 export default function Navbar() {
   const { scrollY } = useScroll();
   const height = useTransform(scrollY, [0, 120], [80, 56]);
-  const bgOpacity = useTransform(scrollY, [0, 120], [0.4, 0.9]);
+  const opacity = useTransform(scrollY, [0, 120], [0.2, 0.8]);
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
 
   React.useEffect(() => {
     const handler = () => setOpen(false);
@@ -28,19 +30,26 @@ export default function Navbar() {
   return (
     <motion.header
       style={{ height }}
-      className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/40 dark:supports-[backdrop-filter]:bg-black/30"
+      className="sticky top-0 z-50"
       aria-label="Primary"
     >
+      <motion.div className="absolute inset-0 -z-10 backdrop-blur" style={{ opacity }} />
       <div className="container container-gutter flex h-full items-center justify-between">
         <Link href="/" aria-label="Go home" className="shrink-0">
           <Logo />
         </Link>
         <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
-          {navLinks.map((l) => (
-            <Link key={l.href} className="link-underline text-sm" href={l.href}>
-              {l.label}
-            </Link>
-          ))}
+          {navLinks.map((l) => {
+            const active = pathname.startsWith(l.href);
+            return (
+              <Link key={l.href} className="relative text-sm" href={l.href}>
+                <span className="link-underline">{l.label}</span>
+                {active && (
+                  <motion.span layoutId="active-pill" className="absolute -bottom-2 left-0 h-[2px] w-full bg-brand-500" />
+                )}
+              </Link>
+            );
+          })}
           <Link href="/dashboard" className="ml-2 inline-flex items-center rounded-md bg-brand-600 px-4 py-2 text-white hover:bg-brand-500 active:scale-[0.98] transition">
             Try demo
           </Link>

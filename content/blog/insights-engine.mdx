@@ -1,0 +1,74 @@
+export const metadata = { title: 'Designing a social insights engine' };
+
+# Designing a social insights engine
+
+Most dashboards tell you what happened. The hard part is telling you why—and what to do next. Building an insights engine means turning raw metrics into explanations and nudges the team acts on.
+
+## Start with decisions, not data
+
+Before you ingest a single event, list the weekly decisions your team makes. Examples:
+
+- Which posts should we double down on this week?
+- Did the new creative improve CTR for the launch campaign?
+- Where are we wasting spend?
+
+Each decision maps to a small set of signals. Collect the minimum data required to inform those decisions.
+
+## Signals that matter for social
+
+- Engagement rate by format and topic
+- Click-through rates normalized across platforms
+- Conversion rate and time-to-convert after social sessions
+- Velocity: the slope of engagement over the first 6 hours
+
+Velocity is underrated. Fast-rising posts deserve attention even if absolute numbers are small.
+
+## From anomaly to explanation
+
+An anomaly detector flags a spike. An insights engine explains it: “CTR spiked to 3.6% on LinkedIn because tutorial posts with question hooks performed 2× better than average at 9am local.” That explanation is stitched from:
+
+- A baseline model per platform and format
+- A library of content features (hook type, CTA, visuals)
+- Context windows (day/time, audience, recency)
+
+## Make it feel like a coach
+
+Insights that land well share three traits:
+
+- Plain language. Write as if texting a teammate, not filing a report.
+- Specificity. “Tutorial posts with a question hook” beats “educational content.”
+- Next step. Suggest one action that is easy to try.
+
+## Where automation actually helps
+
+- Auto-tagging campaigns and content features from titles and captions
+- Detecting breakouts and scheduling a follow-up post template
+- Nudging the right teammate in your chat tool (notifying the designer, not the whole team)
+
+## Presenting insights in the UI
+
+Good UI separates signal from the feed. In PulseTrack we group insights by campaign with a simple severity badge. Clicking one reveals the evidence: timeseries, top posts, and comparative stats.
+
+## Guardrails and trust
+
+Trust dies when the system overreaches. Add guardrails:
+
+- Show confidence levels for each explanation
+- Allow users to mark an insight as helpful or wrong
+- Keep an audit trail linking back to raw events
+
+With these in place, the team leans in rather than treating the system as a black box.
+
+## Outcomes to measure
+
+- Time-to-insight: how long from event to explanation?
+- Adoption: do teams act on the nudges?
+- Business impact: lift in CTR, conversion, or revenue from acted insights
+
+## Building blocks you can ship this quarter
+
+- A clean metrics store with normalized definitions
+- A lightweight rules engine for the first set of explanations
+- An alerting loop that respects quiet hours
+
+You don’t need a PhD lab. You need crisp definitions, good taste in UX, and a willingness to ship small loops fast. When teams get explanations in minutes, they iterate while the momentum is still there.

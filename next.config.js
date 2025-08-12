@@ -21,6 +21,12 @@ const nextConfig = {
   experimental: {
     mdxRs: true,
   },
+  webpack: (config) => {
+    config.resolve = config.resolve || {};
+    config.resolve.alias = config.resolve.alias || {};
+    config.resolve.alias['next-mdx-import-source-file'] = require.resolve('./next-mdx-import-source-file.js');
+    return config;
+  }
 };
 
 module.exports = withMDX(nextConfig);

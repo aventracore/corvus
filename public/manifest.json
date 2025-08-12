@@ -1,0 +1,11 @@
+{
+  "name": "PulseTrack",
+  "short_name": "PulseTrack",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0b1020",
+  "background_color": "#ffffff",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "64x64", "type": "image/x-icon" }
+  ]
+}

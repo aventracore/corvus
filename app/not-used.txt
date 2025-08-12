@@ -1,0 +1,1 @@
+This file ensures the app directory exists before build. It is unused and may be removed.

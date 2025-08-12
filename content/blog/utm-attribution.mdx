@@ -1,0 +1,77 @@
+export const metadata = { title: 'UTM attribution that marketers actually use' };
+
+# UTM attribution that marketers actually use
+
+UTMs are like naming your files: boring until they save your week. In dozens of teams we’ve worked with, the problem wasn’t a lack of tags, it was entropy. This guide shows a simple, durable UTM design that keeps reports truthful and makes optimization obvious.
+
+## The 3×3 you can remember
+
+Most teams only need three consistent dimensions:
+
+- `source`: the channel or platform (e.g., x, instagram, linkedin)
+- `medium`: the format or paid/organic (e.g., organic, paid, newsletter)
+- `campaign`: the initiative with a timebox (e.g., q2-product-launch, webinar-may)
+
+You can add `content` and `term` when useful, but the three above get you 90% there. The key is agreement, not perfection.
+
+## Design principles
+
+- Be human-readable. If a teammate can’t parse a link in chat, it’s the wrong design.
+- Timebox campaigns. Open-ended “brand” campaigns become junk drawers.
+- Keep a roster. A single Google Sheet tab with a dropdown list prevents drift.
+
+## The naming pattern
+
+Use lowercase kebab case and stick to a short whitelist per field.
+
+```text
+utm_source=x&utm_medium=organic&utm_campaign=q2-product-launch
+```
+
+If you run paid on the same platform, the only change is `utm_medium=paid` and a matching ad set name.
+
+## Content variations without chaos
+
+`utm_content` is where many teams go off the rails. Keep it descriptive but structured:
+
+```text
+utm_content=hook-2-cta-b
+```
+
+That says: second hook variant, CTA version B. You don’t need to encode the entire creative concept; your ad platform already has that.
+
+## Governance that doesn’t slow you down
+
+- A living roster: keep a simple sheet with approved values. Columns: `source`, `medium`, `campaign`, `notes`.
+- Pre-baked templates: a form that outputs the full URL prevents typos.
+- Single owner: one person reviews additions weekly. It’s five minutes.
+
+## How PulseTrack helps
+
+PulseTrack normalizes UTMs across platforms and highlights mismatches. If someone tags `ig` instead of `instagram`, the system auto-suggests a merge and explains the impact.
+
+## Reporting that tells the truth
+
+With clean UTMs, you can build a weekly dashboard that everyone trusts:
+
+- New vs. returning visitors per campaign
+- CTR by source/medium
+- Assisted conversions from social sessions
+- Time to first conversion after click
+
+The difference isn’t just nicer charts; it’s fewer debates and faster decisions.
+
+## Common pitfalls (and how to fix them)
+
+- Over-encoding: if you’re stuffing the ad creative and audience into UTMs, stop. Keep the semantics light and consistent.
+- Backfilling tags: retro-tagging is a time sink. Start fresh with new links, and mark the cutover in your report.
+- Tool drift: if one team uses `newsletter` and another uses `email`, pick one and migrate.
+
+## A 20-minute rollout plan
+
+1. Draft the whitelist (five sources, three media, 3–5 campaigns active).
+2. Share the rules of the road in Slack. Keep it to one screenful.
+3. Switch the team to the new pattern on a specific date. No retro work.
+4. Add PulseTrack’s tag checker to your workflow so mistakes surface early.
+
+UTMs aren’t a religion. They’re shared language. Keep it short, make it memorable, and your reports will finally line up with reality.

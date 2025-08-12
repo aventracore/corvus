@@ -3,6 +3,8 @@ import Pricing from '@/components/Pricing';
 import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import { faqJsonLd, productJsonLd, websiteJsonLd } from '@/lib/seo';
+import LogoRow from '@/components/LogoRow';
+import { Card } from '@/components/ui/Card';
 
 const Hero = dynamic(() => import('@/components/Hero'), { ssr: false });
 const FeatureCards = dynamic(() => import('@/components/FeatureCards'), { ssr: false });
@@ -19,20 +21,24 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd()) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faqs)) }} />
       <Hero />
+      <LogoRow />
       <FeatureCards />
       <section className="container container-gutter py-16 md:py-24">
         <h2 className="font-semibold">Live product glimpse</h2>
         <p className="mt-2 text-black/70 dark:text-white/70 max-w-2xl">Animated KPIs and a lightweight chart hint at the full dashboard you will unlock in the demo.</p>
-        {/* Simple inline demo */}
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-black/10 dark:border-white/10 p-4">
-            <div className="text-sm text-black/60 dark:text-white/60">Followers</div>
-            <div className="mt-1 text-2xl font-semibold">15,482</div>
-          </div>
-          <div className="rounded-xl border border-black/10 dark:border-white/10 p-4">
-            <div className="text-sm text-black/60 dark:text-white/60">Avg. CTR</div>
-            <div className="mt-1 text-2xl font-semibold">2.9%</div>
-          </div>
+          <Card>
+            <div className="p-4">
+              <div className="text-sm text-black/60 dark:text-white/60">Followers</div>
+              <div className="mt-1 text-2xl font-semibold">15,482</div>
+            </div>
+          </Card>
+          <Card>
+            <div className="p-4">
+              <div className="text-sm text-black/60 dark:text-white/60">Avg. CTR</div>
+              <div className="mt-1 text-2xl font-semibold">2.9%</div>
+            </div>
+          </Card>
         </div>
       </section>
       <Testimonials />

@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import dynamic from 'next/dynamic';
+import SkipLink from '@/components/SkipLink';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const SEO = dynamic(() => import('@/components/SEO'), { ssr: false });
@@ -26,9 +27,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans bg-[color:var(--surface)] text-[color:var(--text)]`}>
+        <SkipLink />
         <SEO />
         <Navbar />
-        <ClientTransition>{children}</ClientTransition>
+        <div id="content">
+          <ClientTransition>{children}</ClientTransition>
+        </div>
         <Footer />
       </body>
     </html>

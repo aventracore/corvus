@@ -1,4 +1,7 @@
+"use client";
 import Image from 'next/image';
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const testimonials = [
   {
@@ -25,21 +28,45 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const [index, setIndex] = React.useState(0);
+  React.useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % testimonials.length), 4000);
+    return () => clearInterval(id);
+  }, []);
+  const current = testimonials[index];
   return (
-    <section className="container container-gutter py-16 md:py-24">
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {testimonials.map((t) => (
-          <figure key={t.name} className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-black/30 p-6 backdrop-blur">
-            <blockquote className="text-sm">“{t.quote}”</blockquote>
+    <section className="container container-gutter py-16 md:py-24" aria-label="Testimonials">
+      <div className="mx-auto max-w-3xl">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.figure
+            key={index}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-black/30 p-6 backdrop-blur"
+          >
+            <blockquote className="text-lg leading-relaxed">“{current.quote}”</blockquote>
             <figcaption className="mt-4 flex items-center gap-3">
-              <Image src={t.avatar} alt="" width={40} height={40} className="rounded-full object-cover" />
+              <Image src={current.avatar} alt="" width={48} height={48} className="rounded-full object-cover" />
               <div>
-                <div className="text-sm font-semibold">{t.name}</div>
-                <div className="text-xs text-black/60 dark:text-white/60">{t.title}</div>
+                <div className="text-sm font-semibold">{current.name}</div>
+                <div className="text-xs text-black/60 dark:text-white/60">{current.title}</div>
               </div>
             </figcaption>
-          </figure>
-        ))}
+          </motion.figure>
+        </AnimatePresence>
+        <div className="mt-4 flex items-center justify-center gap-2" role="tablist" aria-label="Testimonial selector">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              role="tab"
+              aria-selected={index === i}
+              className={`h-2 w-2 rounded-full ${index === i ? 'bg-brand-600' : 'bg-black/20 dark:bg-white/20'}`}
+              onClick={() => setIndex(i)}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

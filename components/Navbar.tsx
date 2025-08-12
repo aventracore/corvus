@@ -42,7 +42,7 @@ export default function Navbar() {
           {navLinks.map((l) => {
             const active = pathname.startsWith(l.href);
             return (
-              <Link key={l.href} className="relative text-sm" href={l.href}>
+              <Link key={l.href} className="relative text-sm" href={l.href} aria-current={active ? 'page' : undefined}>
                 <span className="link-underline">{l.label}</span>
                 {active && (
                   <motion.span layoutId="active-pill" className="absolute -bottom-2 left-0 h-[2px] w-full bg-brand-500" />
@@ -67,7 +67,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-black/10 dark:border-white/10">
           <div className="container container-gutter py-4 grid gap-3">
             {navLinks.map((l) => (
-              <Link key={l.href} className="text-base py-2" href={l.href} onClick={() => setOpen(false)}>
+              <Link key={l.href} className="text-base py-2" href={l.href} onClick={() => setOpen(false)} aria-current={pathname.startsWith(l.href) ? 'page' : undefined}>
                 {l.label}
               </Link>
             ))}

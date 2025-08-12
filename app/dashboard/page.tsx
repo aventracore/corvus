@@ -5,6 +5,8 @@ import KPIStat from '@/components/KPIStat';
 import { LineChartCard, BarChartCard } from '@/components/ChartCard';
 import DataTable from '@/components/DataTable';
 import { getStoredTheme, setTheme, initTheme, type ThemeMode } from '@/lib/theme';
+import { Tabs } from '@/components/ui/Tabs';
+import { motion } from 'framer-motion';
 
 function useLocalStorage<T>(key: string, initial: T) {
   const [value, setValue] = React.useState<T>(() => {
@@ -57,6 +59,7 @@ function Dashboard() {
   const [platform, setPlatform] = React.useState<Platform | 'All'>('All');
   const [timeseries, setTimeseries] = React.useState(getTimeseries(platform));
   const [posts] = React.useState(getTopPosts());
+  const [tab, setTab] = React.useState<'overview' | 'posts' | 'settings'>('overview');
 
   React.useEffect(() => setTimeseries(getTimeseries(platform)), [platform]);
   React.useEffect(() => {
@@ -74,37 +77,53 @@ function Dashboard() {
 
   return (
     <main className="container container-gutter py-8">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KPIStat label="Followers" value={kpis.followers} />
-        <KPIStat label="Engagement" value={kpis.engagement} suffix="%" />
-        <KPIStat label="CTR" value={kpis.ctr} suffix="%" />
-        <KPIStat label="Conversions" value={kpis.conversions} />
-      </div>
+      <Tabs
+        items={[
+          { key: 'overview', label: 'Overview' },
+          { key: 'posts', label: 'Top posts' },
+          { key: 'settings', label: 'Settings' },
+        ]}
+        value={tab}
+        onChange={(k) => setTab(k as any)}
+      />
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <div className="mb-3 flex items-center gap-3">
-            <h2 className="font-semibold">Engagement over time</h2>
-            <select className="rounded border px-2 py-1 text-sm" value={platform} onChange={(e) => setPlatform(e.target.value as any)}>
-              {['All', 'X', 'Instagram', 'LinkedIn', 'TikTok', 'YouTube'].map((p) => (
-                <option key={p}>{p}</option>
-              ))}
-            </select>
+      {tab === 'overview' && (
+        <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <KPIStat label="Followers" value={kpis.followers} />
+            <KPIStat label="Engagement" value={kpis.engagement} suffix="%" />
+            <KPIStat label="CTR" value={kpis.ctr} suffix="%" />
+            <KPIStat label="Conversions" value={kpis.conversions} />
           </div>
-          <LineChartCard data={timeseries} />
-        </div>
-        <div>
-          <h2 className="mb-3 font-semibold">Platform comparison</h2>
-          <BarChartCard data={barData} />
-        </div>
-      </div>
 
-      <div className="mt-6">
-        <h2 className="mb-3 font-semibold">Top posts</h2>
-        <DataTable posts={posts} />
-      </div>
+          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <div className="mb-3 flex items-center gap-3">
+                <h2 className="font-semibold">Engagement over time</h2>
+                <select className="rounded border px-2 py-1 text-sm" value={platform} onChange={(e) => setPlatform(e.target.value as any)}>
+                  {['All', 'X', 'Instagram', 'LinkedIn', 'TikTok', 'YouTube'].map((p) => (
+                    <option key={p}>{p}</option>
+                  ))}
+                </select>
+              </div>
+              <LineChartCard data={timeseries} />
+            </div>
+            <div>
+              <h2 className="mb-3 font-semibold">Platform comparison</h2>
+              <BarChartCard data={barData} />
+            </div>
+          </div>
+        </motion.section>
+      )}
 
-      <Settings />
+      {tab === 'posts' && (
+        <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+          <h2 className="mb-3 font-semibold">Top posts</h2>
+          <DataTable posts={posts} />
+        </motion.section>
+      )}
+
+      {tab === 'settings' && <Settings />}
     </main>
   );
 }
